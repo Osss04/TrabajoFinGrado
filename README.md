@@ -1,77 +1,78 @@
-# TrabajoFinGrado
-Este repositorio contiene todos los archivos para la realización del Trabajo de Fin de Grado:
-
-## Técnicas Avanzadas de Aprendizaje Automáticopara la Detección de Intrusos en Sistemas Ciber-Físicos
+# Trabajo de Fin de Grado: Técnicas Avanzadas de Aprendizaje Automático para la Detección de Intrusos en Sistemas Ciber-Físicos 🎓🔐
 
 ---
 
-# Ejecución de las Libretas
+## Información del Repositorio 📂
 
-Esta sección describe los pasos necesarios para ejecutar las libretas contenidas en este repositorio.
+Este repositorio contiene todo el trabajo correspondiente a mi **Trabajo de Fin de Grado**. A continuación, se describen los directorios y archivos que conforman este repositorio:
 
-## Estructura del Proyecto
-Los archivos relacionados con el modelo se encuentran en el directorio `Libretas`. 
+### Estructura de Directorios:
 
-Para ejecutar la libreta **`Creación del modelo.ipynb`**, primero es necesario preprocesar los datos del dataset SWaT siguiendo los pasos indicados en la libreta **`Preprocesamiento de los datos.ipynb`**.
+- **Preprocesamiento de los datos**:  
+  Contiene la libreta `Preprocesamiento de los datos.ipynb` que explica cómo preprocesar los datos originales. 📊
+
+- **Modelo**:  
+  Contiene todos los archivos relacionados con el modelo creado, y a su vez, tiene las siguientes carpetas:
+  - **Resultados**:  
+    Contiene los resultados del **Grid Search**, del **entrenamiento** y de la **evaluación** del modelo. 📈
+  - `desarrollo_del_modelo.ipynb`:  
+    Libreta que explica cómo se ha realizado el **Grid Search**, el **entrenamiento** y la **evaluación** del modelo. 🧑‍💻
 
 ---
 
-## 📌 Ejecución de la libreta `Preprocesamiento de los datos.ipynb`
+## Dependencias ⚙️
 
-### 1️⃣ Instalar dependencias
-Se requiere Python `3.10.16` y las siguientes librerías:
-```bash
-pip install pandas matplotlib scikit-learn seaborn numpy scipy
-```
+Para ejecutar la libreta `Preprocesamiento de los datos.ipynb`, se ha utilizado **Python 3.12.7** y las siguientes librerías:
 
-### 2️⃣ Descargar y cargar los datos
-Obtener los siguientes archivos del dataset SWaT y configurar su ruta en la libreta:
+- `pandas` 📊
+- `matplotlib` 📉
+- `sklearn` 📚
+- `seaborn` 🌈
+- `numpy` 🔢
+- `scipy` 🧪
+- `tqdm` ⏳
+
+---
+
+## Ejecución del Modelo 🚀
+
+Para ejecutar el modelo, sigue los pasos detallados a continuación:
+
+### Paso 1: Descargar los Archivos Originales del Dataset SWaT 📥
+
+Accede a los siguientes enlaces para descargar los datos:
+
 - [SWaT_Dataset_Normal.xlsx](https://pruebasaluuclm-my.sharepoint.com/:x:/r/personal/oscar_alcarria_alu_uclm_es/Documents/Archivos%20TFG/Datos%20Originales%20SWaT/SWaT_Dataset_Normal.xlsx?d=w9a72d4f689c246538b404ae29ee1f5a5&csf=1&web=1&e=7afD8A)
-- [SWaT_Dataset_Attack_v0](https://pruebasaluuclm-my.sharepoint.com/:x:/r/personal/oscar_alcarria_alu_uclm_es/Documents/Archivos%20TFG/Datos%20Originales%20SWaT/SWaT_Dataset_Attack_v0.xlsx?d=w48b3d7413b314499985f8ed7bf5c8be4&csf=1&web=1&e=eMIMfm)
+- [SWaT_Dataset_Attack_v0.xlsx](https://pruebasaluuclm-my.sharepoint.com/:x:/r/personal/oscar_alcarria_alu_uclm_es/Documents/Archivos%20TFG/Datos%20Originales%20SWaT/SWaT_Dataset_Attack_v0.xlsx?d=w48b3d7413b314499985f8ed7bf5c8be4&csf=1&web=1&e=eMIMfm)
 
+### Paso 2: Cargar los Archivos en la Libreta `Preprocesamiento de los datos.ipynb` 📤
 
-### 3️⃣ Ejecutar la libreta
-Ejecutar las celdas en el orden establecido. Al finalizar, se generarán tres archivos `.csv` correspondientes a los datos preprocesados:
-- `train.csv` (entrenamiento)
-- `validation.csv` (validación)
-- `test.csv` (pruebas)
+Una vez descargados los archivos, cárgalos en la libreta para comenzar con el preprocesamiento.
 
-Estos archivos serán utilizados en la siguiente libreta.
+### Paso 3: Ejecutar la Libreta en el Orden Establecido ▶️
 
----
+Sigue el orden de ejecución dentro de la libreta para asegurar que el preprocesamiento se realice correctamente.
 
-## 📌 Ejecución de la libreta `Creación del modelo.ipynb`
+### Paso 4: Guardar los Archivos Preprocesados 💾
 
-### 1️⃣ Instalar dependencias
-Se requiere Python `3.10.16` y las siguientes librerías:
-```bash
-pip install pandas torch numpy scikit-learn tqdm seaborn matplotlib
-```
+Guarda los archivos preprocesados como `train.csv`, `val.csv` y `test.csv` para cargarlos en la libreta `desarrollo_del_modelo.ipynb`.
 
-### 2️⃣ Cargar los datos preprocesados
-Configurar la ruta de los archivos generados en la libreta de preprocesamiento:
-- `train.csv`
-- `validation.csv`
-- `test.csv`
+### Paso 5: Cargar los Archivos Preprocesados en la Libreta `desarrollo_del_modelo.ipynb` 🔄
 
-### 3️⃣ Verificar GPU
-Si se dispone de una GPU, asegurarse de que está activada:
-```python
-import torch
-torch.cuda.is_available()  # Debe devolver True
-```
-*Ejemplo de GPU utilizada: NVIDIA GeForce RTX 3080 Ti.*
+Una vez guardados los archivos preprocesados, cárgalos en la libreta destinada al desarrollo del modelo.
 
-### 4️⃣ Ejecutar la libreta
-Ejecutar las celdas en el orden indicado. Al finalizar:
-- Se guardarán los modelos entrenados en archivos `.pth`.
-- Se evaluará el modelo con los datos de prueba.
-- Se generará el archivo `salida_modelo.csv` con las predicciones del modelo.
+### Paso 6: Ejecutar la Libreta en el Orden Establecido ▶️
 
-*Como referencia, con la NVIDIA GeForce RTX 3080 Ti el tiempo de entrenamiento para 5 epochs es de unas 30 horas.*
+Ejecuta la libreta `desarrollo_del_modelo.ipynb` siguiendo el orden establecido para realizar el **Grid Search**, el **entrenamiento** y la **evaluación** del modelo.
+
+### Paso 7: Guardar el Archivo del Modelo Entrenado 💾
+
+Al finalizar el entrenamiento, guarda el archivo del modelo entrenado.
 
 ---
 
+## Contacto 📧
 
+Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
 
-https://pruebasaluuclm-my.sharepoint.com/:f:/r/personal/oscar_alcarria_alu_uclm_es/Documents/Archivos%20TFG/Datos%20Originales%20SWaT?csf=1&web=1&e=ZtQXjF
+---
