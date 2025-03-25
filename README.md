@@ -8,21 +8,24 @@ Este repositorio contiene todo el trabajo correspondiente a mi **Trabajo de Fin 
 
 ### Estructura de Directorios:
 
-- **Preprocesamiento de los datos**:  
-  Contiene la libreta `Preprocesamiento de los datos.ipynb` que explica cómo preprocesar los datos originales. 📊
+- **Aplicación**: Contiene todos los archivos necesarios para ejecutar la aplicación de detección de anomalías. Contiene a su vez los siguientes archivos:
+  - **Imágenes**:
+    Directorio que contiene las imágenes en la aplicación.
+  - **Modelo**:
+    Directorio que contiene el archivo `modelo_completo.pt`, que guarda toda la información del modelo entrenado.
+  - `pagina_principal.py`:
+    Archivo de python que contiene todo el código de `streamlit` en el que se especifican aspectos visuales de la aplicación de detección de anomalías.
 
-- **Modelo**:  
-  Contiene todos los archivos relacionados con el modelo creado, y a su vez, tiene las siguientes carpetas:
-  - **Resultados**:  
-    Contiene los resultados del **Grid Search**, del **entrenamiento** y de la **evaluación** del modelo. 📈
-  - `desarrollo_del_modelo.ipynb`:  
-    Libreta que explica cómo se ha realizado el **Grid Search**, el **entrenamiento** y la **evaluación** del modelo. 🧑‍💻
+- **Creación Modelo**: Contiene todos los archivos relacionados con el modelo creado, y a su vez, tiene las siguientes carpetas:
+  - **Resultados**: Contiene los resultados del **Grid Search**, del **entrenamiento** y de la **evaluación** del modelo. 📈
+  - **Libretas**: Directorio que contiene todas las libretas `ipynb` que se han creado para realizar el modelo. Se encuentran las siguientes libretas:
+    - `Preprocesamiento de los datos.ipynb`: Libreta que explica cómo se ha realizado el **Grid Search**, el **entrenamiento** y la **evaluación** del modelo. 🧑‍💻
 
 ---
 
 ## Dependencias ⚙️
 
-Para ejecutar la libreta `Preprocesamiento de los datos.ipynb`, se ha utilizado **Python 3.12.7** y las siguientes librerías:
+Para ejecutar la libreta `Preprocesamiento de los datos.ipynb`, se ha utilizado **Python 3.10.16** y las siguientes librerías:
 
 - `pandas` 📊
 - `matplotlib` 📉
@@ -31,6 +34,14 @@ Para ejecutar la libreta `Preprocesamiento de los datos.ipynb`, se ha utilizado 
 - `numpy` 🔢
 - `scipy` 🧪
 - `tqdm` ⏳
+
+
+Para ejecutar el archivo `pagina_principal.py`, se ha utilizado **Python 3.12.7** y las siguientes librerías:
+
+- `pandas` 📊
+- `streamlit` 🌐
+- `time` ⏳
+- `torch` 🔥
 
 ---
 
@@ -68,6 +79,22 @@ Ejecuta la libreta `desarrollo_del_modelo.ipynb` siguiendo el orden establecido 
 ### Paso 7: Guardar el Archivo del Modelo Entrenado 💾
 
 Al finalizar el entrenamiento, guarda el archivo del modelo entrenado.
+
+---
+
+## Ejecución de la Aplicación 🚀  
+
+Para ejecutar la aplicación, sigue estos pasos:  
+
+### Paso 1: Abrir la terminal  
+Una vez descargados los archivos en local, abre la terminal en el directorio donde guardaste el archivo.  
+
+### Paso 2: Ejecutar la aplicación  
+Asegúrate de que **Streamlit** está instalado en tu ordenador. Luego, ejecuta el siguiente comando en la terminal:  
+
+```bash
+streamlit run pagina_principal.py
+```
 
 ---
 
