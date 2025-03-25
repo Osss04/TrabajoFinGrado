@@ -10,11 +10,11 @@ Este repositorio contiene todo el trabajo correspondiente a mi **Trabajo de Fin 
 
 - **Aplicación**: Contiene todos los archivos necesarios para ejecutar la aplicación de detección de anomalías. Contiene a su vez los siguientes archivos:
   - **Imágenes**:
-    Directorio que contiene las imágenes en la aplicación.
+    Directorio que contiene las imágenes en la aplicación. 🖼️
   - **Modelo**:
-    Directorio que contiene el archivo `modelo_completo.pt`, que guarda toda la información del modelo entrenado.
+    Directorio que contiene el archivo `modelo_completo.pt`, que guarda toda la información del modelo entrenado. 🎯
   - `pagina_principal.py`:
-    Archivo de python que contiene todo el código de `streamlit` en el que se especifican aspectos visuales de la aplicación de detección de anomalías.
+    Archivo de python que contiene todo el código de `streamlit` en el que se especifican aspectos visuales de la aplicación de detección de anomalías. 🎨
 
 - **Creación Modelo**: Contiene todos los archivos relacionados con el modelo creado, y a su vez, tiene las siguientes carpetas:
   - **Resultados**: Contiene los resultados del **Grid Search**, del **entrenamiento** y de la **evaluación** del modelo. 📈
