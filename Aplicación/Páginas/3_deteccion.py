@@ -123,22 +123,24 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
     # Crear un DataFrame vacío para almacenar los resultados
     df_results = pd.DataFrame(columns=['Fecha', 'Predicción', 'Anomalía', 'Variables Anómalas'])
 
+    columns = ['Fecha', 'Anomalía', 'Detalles']
+    anomaly_history_df = pd.DataFrame(columns=columns)
+
     # Crear un contenedor en Streamlit para la tabla
     table_placeholder = st.empty()
 
     # Inicializar el marcador de posición para la imagen
     image_placeholder = st.empty()
-    # Marcador de posición para el gráfico
-    plot_placeholder_fit101 = st.empty()
-    plot_placeholder_lit101 = st.empty()
 
-    # Lista para almacenar los valores históricos del sensor
-    sensor_data_fit101 = []
-    sensor_data_lit101 = []
+    anomaly_message_placeholder = st.empty()  # Esto será el placeholder para el mensaje
+
+    # Crear un contenedor en Streamlit para la tabla
+    table_placeholder_anomaly = st.empty()
+
 
     #desactivamos el cálculo de gradientes
     with torch.no_grad():
-        for i, (X_batch, y_batch) in enumerate(test_loader):
+        for X_batch, y_batch in test_loader:
             X_batch = X_batch.to(device).float()
             y_batch = y_batch.to(device).float()
             y_pred = model(X_batch)
@@ -168,7 +170,7 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
 
 
             if anomaly_list:
-            # Comprobar si el sensor 'FIT101' está en la lista de anomalías
+                # Comprobar si el sensor 'FIT101' está en la lista de anomalías
                 if 'FIT101' in anomaly_list[0]:  # Aquí, 'anomaly_list[0]' contiene los sensores anómalos de la primera fila
                     state_image_path = "Imágenes/EstadoSistema/FIT101.png"  # Imagen cuando 'FIT101' tiene una anomalía
                 elif 'LIT101' in anomaly_list[0]:
@@ -209,21 +211,8 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
                     state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando otro sensor tiene la anomalía
             else:
                 state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
-
             # Mostrar imagen del estado del sistema
-            estado_sistema(state_image_path, image_placeholder)
-
-            # Mostrar la evolución de un sensor (por ejemplo, el sensor 'FIT101')
-            
-            
-            sensor_name = 'FIT101'
-            sensor_index = 0
-            sensor_value = X_batch[0, -1, sensor_index].item()  
-            sensor_data_fit101.append(sensor_value)  # Agregar valor al historial
-
-            # Actualizar gráfico de evolución
-            show_sensor_evolution(sensor_data_fit101, sensor_name, plot_placeholder_fit101)
-            
+            estado_sistema(state_image_path, image_placeholder) 
 
             # Agregar nueva predicción a la tabla con nombres de sensores
             new_row = pd.DataFrame({
@@ -234,9 +223,33 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
             })
 
             df_results = pd.concat([df_results, new_row], ignore_index=True)
-
-            # Actualizar la tabla en Streamlit
             table_placeholder.dataframe(df_results, use_container_width=True)
+
+            if anomaly_list[0]:
+                # Mostrar el mensaje solo cuando hay una anomalía
+                anomaly_message_placeholder.error("¡Anomalía detectada! Revisa los sensores y el estado del sistema.")
+                
+                alert_message = f"🚨🚨🚨 REVISE LOS SENSORES: {', '.join(anomaly_list[0])}"
+
+                # Crear una nueva fila con la información de la predicción y la anomalía detectada
+                new_row = {
+                    'Fecha': current_time,
+                    'Anomalía': "Sí" if anomaly_flag == 1 else "No",  # Indicar si hay anomalía
+                    'Detalles': alert_message  # Convertir las predicciones a lista
+                }
+
+                # Convertir el diccionario a un DataFrame de pandas
+                new_row_df = pd.DataFrame([new_row])  # Convertimos el diccionario en un DataFrame
+
+                # Agregar la nueva fila al DataFrame usando pd.concat
+                anomaly_history_df = pd.concat([anomaly_history_df, new_row_df], ignore_index=True)
+
+                # Mostrar el DataFrame actualizado con las anomalías
+                table_placeholder_anomaly.dataframe(anomaly_history_df, use_container_width=True)
+            else:
+                # Si no hay anomalía, podemos borrar el mensaje de alerta
+                anomaly_message_placeholder.empty()
+                        
 
 
     return df_results
@@ -253,30 +266,6 @@ def estado_sistema(path_imagen, image_placeholder):
     """
     image = Image.open(path_imagen)  # Abre la imagen desde la ruta
     image_placeholder.image(image, caption="Estado del Sistema", use_container_width=True)
-
-#############################################
-#MOSTRAR EL VALOR REAL DEL SISTEMA
-#############################################
-# Función para mostrar la evolución del sensor
-def show_sensor_evolution(sensor_data, sensor_name, plot_placeholder):
-    """
-    Muestra o actualiza el gráfico de la evolución de un sensor.
-    
-    Parámetros:
-    - sensor_data: Lista de datos históricos del sensor (valores de medición).
-    - sensor_name: Nombre del sensor.
-    - plot_placeholder: Marcador de posición para el gráfico en Streamlit.
-    """
-    # Crear gráfico
-    fig, ax = plt.subplots(figsize=(10, 4))
-    ax.plot(sensor_data, label=sensor_name)
-    ax.set_title(f'Evolución de {sensor_name}')
-    ax.set_xlabel('Tiempo (segundos)')
-    ax.set_ylabel('Valor del Sensor')
-    ax.legend()
-
-    # Actualizar el gráfico en Streamlit
-    plot_placeholder.pyplot(fig)
 
 # Función para la página de detección de anomalías
 def mostrar_deteccion_anomalias():
