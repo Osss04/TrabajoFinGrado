@@ -1,7 +1,5 @@
 # RESULTADOS GRID SEARCH 📊
 
----
-
 ## param_grid1:
 
 ### Probando configuración:  
@@ -108,7 +106,7 @@
 **Evaluando en conjunto de validación...**  
 📉 **MAE en validación: 0.1691**  
 
----
+
 
 
 ### ✅ Mejor configuración general:
@@ -119,3 +117,45 @@
 | **Neuronas densas** | `[704]`     |
 | **Neuronas LSTM** | `[256, 130]` |
 | **Mejor MAE**   | `0.0577`        |
+
+
+<hr style="height:4px;border-width:0;color:gray;background-color:gray">
+
+# Resultados del Entrenamiento
+
+
+## 📈 Progreso del Entrenamiento
+
+| Época   | Loss     | Checkpoint               |
+|---------|----------|--------------------------|
+| 1/9     | `0.0102` |                          |
+| 2/9     | `0.0083` | ✅ `checkpoint_2.pt`      |
+| 3/9     | `0.0068` |                          |
+| 4/9     | `0.0064` | ✅ `checkpoint_4.pt`      |
+| 5/9     | `0.0061` | ✅ `checkpoint_5.pt`      |
+| 6/9     | `0.0062` | ✅ `checkpoint_6.pt`      |
+| 7/9     | `0.0065` |                          |
+| 8/9     | `0.0058` |                          |
+| 9/9     | `0.0072` | 🏆 **`modelo_completo.pt`** |
+
+### 🔍 Análisis
+- **Mejor pérdida**: Época 8 (`0.0058`)
+- **Checkpoints guardados**: 4 (épocas 2, 4, 5, 6)
+
+
+
+<hr style="height:4px;border-width:0;color:gray;background-color:gray">
+
+# Resultados del Modelo de Detección de Anomalías
+
+## ⚡ Progreso de la evaluación:
+100%|████████████████████████████████████████████████████| 449789/449789 [1:32:16<00:00, 81.25it/s]
+
+## 📊 Métricas de Rendimiento
+
+| Métrica     | Valor   |
+|-------------|---------|
+| Precision   | 0.7726  |
+| Recall      | 0.7208  |
+| F1-Score    | 0.7458  |
+| Accuracy    | 0.9403  |
