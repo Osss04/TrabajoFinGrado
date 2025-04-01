@@ -229,7 +229,7 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
                 # Mostrar el mensaje solo cuando hay una anomalía
                 anomaly_message_placeholder.error("¡Anomalía detectada! Revisa los sensores y el estado del sistema.")
                 
-                alert_message = f"🚨🚨🚨 REVISE LOS SENSORES: {', '.join(anomaly_list[0])}"
+                alert_message = f"🚨🚨🚨 REVISA LOS SENSORES: {', '.join(anomaly_list[0])}"
 
                 # Crear una nueva fila con la información de la predicción y la anomalía detectada
                 new_row = {
