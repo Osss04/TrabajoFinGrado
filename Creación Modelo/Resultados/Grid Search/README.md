@@ -1,112 +1,121 @@
-# RESULTADOS GRID SEARCH
+# RESULTADOS GRID SEARCH 📊
 
-## param1:
-----------------------------------------------
-### Probando configuración: 
-`{'activation': 'relu', 'dense_neurons': [100, 704], 'epochs': 3, 'lstm_neurons': [512 ,256, 130]}`
-Entrenando con epochs = 3
+---
 
-- **Epoch 1/3** - Loss: 0.0753
-- **Epoch 2/3** - Loss: 0.0892
-- **Epoch 3/3** - Loss: 0.0930
+## param_grid1:
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.3470
+- **Epoch 1/3** - Loss: 0.0157  
+- **Epoch 2/3** - Loss: 0.0145  
+- **Epoch 3/3** - Loss: 0.0111  
 
-### Probando configuración: 
-`{'activation': 'relu', 'dense_neurons': [100, 704], 'epochs': 3, 'lstm_neurons': [256, 130]}`
-Entrenando con epochs = 3
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0920**  
 
-- **Epoch 1/3** - Loss: 0.0745
-- **Epoch 2/3** - Loss: 0.0757
-- **Epoch 3/3** - Loss: 0.0925
+---
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.3298
+- **Epoch 1/3** - Loss: 0.0103  
+- **Epoch 2/3** - Loss: 0.0087  
+- **Epoch 3/3** - Loss: 0.0072  
 
-### Probando configuración: 
-`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512 ,256, 130]}`
-Entrenando con epochs = 3
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0577**  
 
-- **Epoch 1/3** - Loss: 0.0696
-- **Epoch 2/3** - Loss: 0.0726
-- **Epoch 3/3** - Loss: 0.0684
+---
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'relu', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.3090
+- **Epoch 1/3** - Loss: 0.0222  
+- **Epoch 2/3** - Loss: 0.0250  
+- **Epoch 3/3** - Loss: 0.0158  
 
-### Probando configuración: 
-`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`
-Entrenando con epochs = 3
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0648**  
 
-- **Epoch 1/3** - Loss: 0.0690
-- **Epoch 2/3** - Loss: 0.0653
-- **Epoch 3/3** - Loss: 0.0637
+---
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'relu', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.3067
+- **Epoch 1/3** - Loss: 0.0171  
+- **Epoch 2/3** - Loss: 0.0130  
+- **Epoch 3/3** - Loss: 0.0131  
 
-### Mejor configuración: 
-`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`
-- **Mejor MAE**: 0.3067
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0916**  
 
-----------------------------------------------
-## param2:
-----------------------------------------------
-### Probando configuración: 
-`{'activation': 'sigmoid', 'dense_neurons': [100, 704], 'epochs': 3, 'lstm_neurons': [512 ,256, 130]}`
-Entrenando con epochs = 3
+---
 
-- **Epoch 1/3** - Loss: 0.0916
-- **Epoch 2/3** - Loss: 0.0991
-- **Epoch 3/3** - Loss: 0.1033
+## param_grid2:
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.6291
+- **Epoch 1/3** - Loss: 0.0199  
+- **Epoch 2/3** - Loss: 0.0165  
+- **Epoch 3/3** - Loss: 0.0120  
 
-### Probando configuración: 
-`{'activation': 'sigmoid', 'dense_neurons': [100, 704], 'epochs': 3, 'lstm_neurons': [256, 130]}`
-Entrenando con epochs = 3
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0914**  
 
-- **Epoch 1/3** - Loss: 0.0879
-- **Epoch 2/3** - Loss: 0.0897
-- **Epoch 3/3** - Loss: 0.0826
+---
 
-Evaluando en conjunto de validación...
+### Probando configuración:  
+**`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **MAE en validación**: 0.4017
+- **Epoch 1/3** - Loss: 0.0183
+- **Epoch 2/3** - Loss: 0.0136  
+- **Epoch 3/3** - Loss: 0.0094  
 
-### Probando configuración:
-`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512 ,256, 130]}`
-Entrenando con epochs = 3
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.0913**  
 
-- **Epoch 1/3** - Loss: 0.0837
+---
 
-- **Epoch 2/3** - Loss: 0.0744
+### Probando configuración:  
+**`{'activation': 'sigmoid', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **Epoch 3/3** - Loss: 0.0670
-Evaluando en conjunto de validación...
+- **Epoch 1/3** - Loss: 0.0175  
+- **Epoch 2/3** - Loss: 0.0196  
+- **Epoch 3/3** - Loss: 0.0180  
 
-- **MAE en validación**: 0.3714
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.1953**  
 
-## Probando configuración:
-`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`
-Entrenando con epochs = 3
+---
 
-- **Epoch 1/3** - Loss: 0.0773
+### Probando configuración:  
+**`{'activation': 'sigmoid', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
+**Entrenando con epochs = 3**  
 
-- **Epoch 2/3** - Loss: 0.0664
+- **Epoch 1/3** - Loss: 0.0182  
+- **Epoch 2/3** - Loss: 0.0172  
+- **Epoch 3/3** - Loss: 0.0183  
 
-- **Epoch 3/3** - Loss: 0.0649
-Evaluando en conjunto de validación...
+**Evaluando en conjunto de validación...**  
+📉 **MAE en validación: 0.1691**  
 
-- **MAE en validación**: 0.3630
+---
 
-### Mejor configuración:
-`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}` 
-- **Mejor MAE**: 0.3630
+
+### ✅ Mejor configuración general:
+
+| Parámetro        | Valor             |
+|-----------------|------------------|
+| **Activación**  | `relu`           |
+| **Neuronas densas** | `[704]`     |
+| **Neuronas LSTM** | `[256, 130]` |
+| **Mejor MAE**   | `0.0577`        |

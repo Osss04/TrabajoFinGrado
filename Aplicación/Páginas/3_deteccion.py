@@ -2,15 +2,208 @@ import streamlit as st
 import pandas as pd
 import time
 import torch
-import torch.nn as nn
+import numpy as np
+from torch.utils.data import Dataset
+from datetime import datetime
+from PIL import Image 
+
 
 import os
 print(os.getcwd())  # Muestra el directorio actual
  
 
- 
-# Cargar el modelo previamente entrenado
-modelo = torch.load("Modelo/modelo_5.pth", weights_only=False)
+ ########################################################
+ #GENERADOR DE DATOS
+ ########################################################
+class TimeSeriesDataset(Dataset):
+    def __init__(self, data, n, h, m, overlap = 1):
+        """
+        Parámetros:
+            data: Serie temporal, es un DataFrame.
+            n: Tamaño de la ventana, es un entero.
+            h: Horizonte de predicción, es un entero.
+            m: Número de predicciones futuras, es un entero.
+        """
+
+        #lo converitmos a float32 para que el entrenamiento sea más rápido
+        if isinstance(data, np.ndarray):
+            self.data = torch.tensor(data, dtype=torch.float32)
+        else:
+            self.data = torch.tensor(data.values, dtype=torch.float32)
+
+        self.n = n
+        self.h = h
+        self.m = m
+        self.overlap = overlap
+        
+        #cantidad de muestras posibles del dataset
+        self.num_samples = (len(self.data) - (n + h + m) + 1)// self.overlap
+
+    def __len__(self):
+        return self.num_samples
+
+    def __getitem__(self, idx):
+        """
+        getitem: Devuelve la muestra correspondiente al índice dado.
+
+        Devuelve:
+            - x: ventana de tamaño n.
+            - y: un valor futuro después de un horizonte h (tamaño 1).
+        """
+        real_idx = idx*self.overlap
+        #ventana de entrada de tamaño n, con lo que se entrena
+        x = self.data[real_idx:real_idx+self.n]
+
+        #queremos predecir el valor[n+m+h], por lo que lo comparamos con el real
+        y = self.data[real_idx+self.n+self.h:real_idx+self.n+self.h+self.m].reshape(-1)
+
+        return x, y
+    
+
+
+ ########################################################
+ #EVALUACION DEL MODELO
+ ########################################################
+def computa_error(y_true, y_pred):
+    """
+    computa_error: Calcula el error absoluto entre las predicciones y los valores verdaderos.
+
+    Parámetros:
+    y_true: Vector que contien los valores reales del dataset, es un array de NumPy.
+    y_pred: Vector que contiene las predicciones realiadas por la red neuronal, es un array de NumPy.
+    
+    Devuelve:
+        -error absoluto entre el vector de predicciones y el de valores reales.
+    """
+    error = torch.abs(y_true - y_pred).detach().cpu().numpy() #error por variable, no se hace la media
+    return error
+
+def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
+    """
+    evaluate_model: Obtiene los errores con los datos de entrenamiento, calcula el umbral con los datos
+    de validación y obtiene los resultados del modelo con los datos del test.
+    
+    Parámetros:
+    model_path: ruta para cargar el modelo a evualuar.    
+    test_loader: Es el DataLoader que hemos creado para cargar los datos de test, es un DataLoader.
+    y_test_true: Vector que contiene los valores de la etiqueta clase de los datos de test, es un vector de NumPy.
+
+
+    modificación 20 marzo 2025:
+    -elimino el cálculo de la media y s.d. de error del train ya que ahora se calcula durante el entrenamiento.
+    -elimino el cálculo de val_errors y lo añado en el entrenamiento.
+    
+    """
+    #cargamos el modelo guardado
+    model = torch.jit.load(model_path, map_location=device)
+    print(f"Modelo cargado desde {model_path}")
+    
+    #activamos el modo de evaluación
+    model.eval()
+    
+    #nuevo 20/03/2025:
+    #se lee la media la s.d. guardados en el modelo
+    train_mean = model.train_mean.cpu().numpy()
+    train_std = model.train_std.cpu().numpy()
+    val_errors = model.val_errors.cpu().numpy()
+
+
+    #calculamos los z-score en el conjunto de validación
+    val_z_scores = (val_errors - train_mean) / train_std
+
+    #definimos el umbral para detectar anomalías: percentil 99.5%
+    feature_thresholds = np.max(val_z_scores, axis=0)#umbral por variable
+
+    #en los datos de test, hacemos lo mismo
+    #definimos array vacío para los errores en el test
+    test_errors = []
+    test_predictions = []
+    y_test_real = []
+
+    # Crear un DataFrame vacío para almacenar los resultados
+    df_results = pd.DataFrame(columns=['Fecha', 'Predicción', 'Anomalía', 'Variables Anómalas'])
+
+    # Crear un contenedor en Streamlit para la tabla
+    table_placeholder = st.empty()
+
+    # Inicializar el marcador de posición para la imagen
+    image_placeholder = st.empty()
+
+    #desactivamos el cálculo de gradientes
+    with torch.no_grad():
+        for i, (X_batch, y_batch) in enumerate(test_loader):
+            X_batch = X_batch.to(device).float()
+            y_batch = y_batch.to(device).float()
+            y_pred = model(X_batch)
+            #calculamos el error en el test con la función computa_error
+            error = computa_error(y_batch, y_pred)
+            test_errors.append(error)
+            test_predictions.append(y_pred.cpu().numpy()) #guardo predicciones
+            y_test_real.append(y_batch.cpu().numpy())
+            #time.sleep(1) #para la simulacion
+
+            # Mostrar en Streamlit la predicción actualizada
+            # Detectar anomalías
+            test_z_score = (error - train_mean) / train_std
+            anomalies_per_feature = test_z_score > feature_thresholds
+            print(anomalies_per_feature)
+            # Crear una lista para almacenar los nombres de los sensores anómalos
+            anomaly_list = []
+
+            # Iterar sobre cada fila (cada predicción)
+            for row in anomalies_per_feature:
+                # Obtener los índices de las columnas donde hay anomalías (True)
+                anomaly_indices = np.where(row)[0]  # Esto devolverá todos los índices de características anómalas
+                # Mapear los índices de las anomalías a los nombres de las características (sensores)
+                anomaly_list.append([X_test.columns[idx] for idx in anomaly_indices])  # Convertir índices en nombres de sensores
+
+            anomaly_flag = int(anomalies_per_feature.any())
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+
+            if anomaly_list:
+            # Comprobar si el sensor 'FIT101' está en la lista de anomalías
+                if 'FIT101' in anomaly_list[0]:  # Aquí, 'anomaly_list[0]' contiene los sensores anómalos de la primera fila
+                    state_image_path = "Imágenes/EstadoSistema/FIT101.png"  # Imagen cuando 'FIT101' tiene una anomalía
+                elif 'LIT101' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/lIT101.png"  # Imagen cuando 'LIT101' tiene una anomalía
+                else:
+                    state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando otro sensor tiene la anomalía
+            else:
+                state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
+
+            # Mostrar imagen del estado del sistema
+            estado_sistema(state_image_path, image_placeholder)
+
+            # Agregar nueva predicción a la tabla con nombres de sensores
+            new_row = pd.DataFrame({
+                'Fecha': [current_time],
+                'Predicción': [y_pred.cpu().numpy().tolist()],  # Convertir a lista para evitar errores de formato
+                'Anomalía': ["Sí" if anomaly_flag == 1 else "No"],  # Convertir 1 -> "Sí" y 0 -> "No"
+                'Variables Anómalas': anomaly_list  # Convertir índices a nombres de sensores
+            })
+
+            df_results = pd.concat([df_results, new_row], ignore_index=True)
+
+            # Actualizar la tabla en Streamlit
+            table_placeholder.dataframe(df_results, use_container_width=True)
+
+
+    return df_results
+
+############################################
+#MOSTRAR LA IMAGEN DE ESTADO DEL SISTEMA
+############################################
+def estado_sistema(path_imagen, image_placeholder):
+    """
+    Muestra una imagen que representa el estado del sistema en Streamlit.
+
+    Parámetros:
+    - state_image_path: Ruta de la imagen que representa el estado actual del sistema.
+    """
+    image = Image.open(path_imagen)  # Abre la imagen desde la ruta
+    image_placeholder.image(image, caption="Estado del Sistema", use_container_width=True)
+
 
 # Función para la página de detección de anomalías
 def mostrar_deteccion_anomalias():
@@ -102,7 +295,7 @@ def mostrar_deteccion_anomalias():
         
         # Cargar datos
         try:
-            df = pd.read_csv(archivo)
+            test = pd.read_csv(archivo)
             
             # Vista previa de datos
             st.markdown('<div class="header">👀 Vista previa de los datos</div>', unsafe_allow_html=True)
@@ -111,7 +304,7 @@ def mostrar_deteccion_anomalias():
                 <p>Primeras 5 filas del dataset cargado:</p>
             </div>
             """, unsafe_allow_html=True)
-            st.dataframe(df.head().style.set_properties(**{'background-color': '#f8f9fa'}), use_container_width=True)
+            st.dataframe(test.head().style.set_properties(**{'background-color': '#f8f9fa'}), use_container_width=True)
             
             # Procesamiento en tiempo real
             st.markdown('<div class="header">⚙️ Procesamiento en tiempo real</div>', unsafe_allow_html=True)
@@ -121,59 +314,27 @@ def mostrar_deteccion_anomalias():
             </div>
             """, unsafe_allow_html=True)
             
-            # Barra de progreso
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            resultados = []
-            total_filas = len(df)
-            
-            for i, row in df.iterrows():
-                # Simulación de procesamiento
-                features = row.values.reshape(1, -1)
-                prediccion = modelo(features)  # Usar tu modelo real aquí
-                anomalia = prediccion > 0.5  # Ajustar umbral según necesidad
-                resultados.append({"Índice": i, "Anomalía": "Sí" if anomalia else "No"})
-                
-                # Actualizar progreso
-                percent_complete = int((i + 1) / total_filas * 100)
-                progress_bar.progress(percent_complete)
-                status_text.markdown(f"""
-                <div style="margin: 5px 0;">
-                    Fila {i}: 
-                    <span class="{'anomaly' if anomalia else 'normal'}">
-                        {'🚨 Anomalía detectada' if anomalia else '✅ Comportamiento normal'}
-                    </span>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Pequeña pausa para simular tiempo real
-                time.sleep(0.1)
-            
-            # Resultados finales
-            st.markdown('<div class="header">📊 Resultados del análisis</div>', unsafe_allow_html=True)
-            st.markdown("""
-            <div class="result-box">
-                <p>Resumen de detección de anomalías:</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            resultados_df = pd.DataFrame(resultados)
-            anomalias_count = resultados_df[resultados_df["Anomalía"] == "Sí"].shape[0]
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("Total de filas analizadas", total_filas)
-            with col2:
-                st.metric("Anomalías detectadas", anomalias_count, delta=f"{anomalias_count/total_filas*100:.1f}%")
-            
-            st.dataframe(
-                resultados_df.style.applymap(
-                    lambda x: 'background-color: #ffcccc' if x == 'Sí' else 'background-color: #ccffcc', 
-                    subset=['Anomalía']
-                ),
-                use_container_width=True
+
+            X_test = test.drop(columns = "Normal/Attack")
+            y_test = test["Normal/Attack"]
+
+            #instanciar el generador de datos
+            #creación de los datasets tanto para entrenamiento como para test
+            test_dataset = TimeSeriesDataset(X_test, 120, 10, 1)
+
+            #creación de los dataloaders
+
+
+            #creamos el dataloader para los datos de test
+            test_loader = torch.utils.data.DataLoader(
+                test_dataset, 
+                num_workers=0,      #para cargar los datos más rápido
+                pin_memory=True     #optimiza la transferencia de los datos a la GPU
             )
+
+            y_real =y_test.values[130:]
+
+            resultados_df = evaluate_model("Modelo/modelo_completo.pt",test_loader,y_real,X_test, device='cpu')
             
             # Botón para descargar resultados
             csv = resultados_df.to_csv(index=False).encode('utf-8')
