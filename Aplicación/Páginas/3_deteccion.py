@@ -6,10 +6,10 @@ import numpy as np
 from torch.utils.data import Dataset
 from datetime import datetime
 from PIL import Image 
+import matplotlib.pyplot as plt
 
 
-import os
-print(os.getcwd())  # Muestra el directorio actual
+
  
 
  ########################################################
@@ -128,6 +128,13 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
 
     # Inicializar el marcador de posición para la imagen
     image_placeholder = st.empty()
+    # Marcador de posición para el gráfico
+    plot_placeholder_fit101 = st.empty()
+    plot_placeholder_lit101 = st.empty()
+
+    # Lista para almacenar los valores históricos del sensor
+    sensor_data_fit101 = []
+    sensor_data_lit101 = []
 
     #desactivamos el cálculo de gradientes
     with torch.no_grad():
@@ -140,13 +147,12 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
             test_errors.append(error)
             test_predictions.append(y_pred.cpu().numpy()) #guardo predicciones
             y_test_real.append(y_batch.cpu().numpy())
-            #time.sleep(1) #para la simulacion
+            #time.sleep(0.8) #para la simulacion
 
             # Mostrar en Streamlit la predicción actualizada
             # Detectar anomalías
             test_z_score = (error - train_mean) / train_std
             anomalies_per_feature = test_z_score > feature_thresholds
-            print(anomalies_per_feature)
             # Crear una lista para almacenar los nombres de los sensores anómalos
             anomaly_list = []
 
@@ -167,6 +173,38 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
                     state_image_path = "Imágenes/EstadoSistema/FIT101.png"  # Imagen cuando 'FIT101' tiene una anomalía
                 elif 'LIT101' in anomaly_list[0]:
                     state_image_path = "Imágenes/EstadoSistema/lIT101.png"  # Imagen cuando 'LIT101' tiene una anomalía
+                elif 'DPIT301' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/DPIT301.png"  # Imagen cuando 'DPIT301' tiene una anomalía
+                elif 'FIT201' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/FIT201.png"  # Imagen cuando 'FIT201' tiene una anomalía
+                elif 'FIT601' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/FIT601.png"  # Imagen cuando 'FIT601' tiene una anomalía
+                elif 'LIT301' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/LIT301.png"  # Imagen cuando 'LIT301' tiene una anomalía
+                elif 'LIT401' in anomaly_list[0]:
+                    state_image_path = "Imágenes/EstadoSistema/LIT401.png"  # Imagen cuando 'LIT401' tiene una anomalía
+                elif any(sensor.startswith("MV101") for sensor in anomaly_list[0]):  # Detecta cualquier "MV101..."
+                    state_image_path = "Imágenes/EstadoSistema/MV101.png"
+                elif any(sensor.startswith("MV201") for sensor in anomaly_list[0]):  # Detecta cualquier "MV201..."
+                    state_image_path = "Imágenes/EstadoSistema/MV201.png"
+                elif any(sensor.startswith("MV301") for sensor in anomaly_list[0]):  # Detecta cualquier "MV301..."
+                    state_image_path = "Imágenes/EstadoSistema/MV301.png"
+                elif any(sensor.startswith("MV302") for sensor in anomaly_list[0]):  # Detecta cualquier "MV302..."
+                    state_image_path = "Imágenes/EstadoSistema/MV302.png"
+                elif any(sensor.startswith("MV303") for sensor in anomaly_list[0]):  # Detecta cualquier "MV303..."
+                    state_image_path = "Imágenes/EstadoSistema/MV303.png"
+                elif any(sensor.startswith("MV304") for sensor in anomaly_list[0]):  # Detecta cualquier "MV304..."
+                    state_image_path = "Imágenes/EstadoSistema/MV304.png"
+                elif any(sensor.startswith("P101") for sensor in anomaly_list[0]):  # Detecta cualquier "P101..."
+                    state_image_path = "Imágenes/EstadoSistema/P101.png"
+                elif any(sensor.startswith("P203") for sensor in anomaly_list[0]):  # Detecta cualquier "P203..."
+                    state_image_path = "Imágenes/EstadoSistema/P203.png"
+                elif any(sensor.startswith("P205") for sensor in anomaly_list[0]):  # Detecta cualquier "P205..."
+                    state_image_path = "Imágenes/EstadoSistema/P205.png"
+                elif any(sensor.startswith("P302") for sensor in anomaly_list[0]):  # Detecta cualquier "P302..."
+                    state_image_path = "Imágenes/EstadoSistema/P302.png"
+                elif any(sensor.startswith("P602") for sensor in anomaly_list[0]):  # Detecta cualquier "P602..."
+                    state_image_path = "Imágenes/EstadoSistema/P602.png"
                 else:
                     state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando otro sensor tiene la anomalía
             else:
@@ -174,6 +212,18 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
 
             # Mostrar imagen del estado del sistema
             estado_sistema(state_image_path, image_placeholder)
+
+            # Mostrar la evolución de un sensor (por ejemplo, el sensor 'FIT101')
+            
+            
+            sensor_name = 'FIT101'
+            sensor_index = 0
+            sensor_value = X_batch[0, -1, sensor_index].item()  
+            sensor_data_fit101.append(sensor_value)  # Agregar valor al historial
+
+            # Actualizar gráfico de evolución
+            show_sensor_evolution(sensor_data_fit101, sensor_name, plot_placeholder_fit101)
+            
 
             # Agregar nueva predicción a la tabla con nombres de sensores
             new_row = pd.DataFrame({
@@ -204,6 +254,29 @@ def estado_sistema(path_imagen, image_placeholder):
     image = Image.open(path_imagen)  # Abre la imagen desde la ruta
     image_placeholder.image(image, caption="Estado del Sistema", use_container_width=True)
 
+#############################################
+#MOSTRAR EL VALOR REAL DEL SISTEMA
+#############################################
+# Función para mostrar la evolución del sensor
+def show_sensor_evolution(sensor_data, sensor_name, plot_placeholder):
+    """
+    Muestra o actualiza el gráfico de la evolución de un sensor.
+    
+    Parámetros:
+    - sensor_data: Lista de datos históricos del sensor (valores de medición).
+    - sensor_name: Nombre del sensor.
+    - plot_placeholder: Marcador de posición para el gráfico en Streamlit.
+    """
+    # Crear gráfico
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.plot(sensor_data, label=sensor_name)
+    ax.set_title(f'Evolución de {sensor_name}')
+    ax.set_xlabel('Tiempo (segundos)')
+    ax.set_ylabel('Valor del Sensor')
+    ax.legend()
+
+    # Actualizar el gráfico en Streamlit
+    plot_placeholder.pyplot(fig)
 
 # Función para la página de detección de anomalías
 def mostrar_deteccion_anomalias():
