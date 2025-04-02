@@ -121,9 +121,9 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
     y_test_real = []
 
     # Crear un DataFrame vacío para almacenar los resultados
-    df_results = pd.DataFrame(columns=['Fecha', 'Predicción', 'Anomalía', 'Variables Anómalas'])
+    df_results = pd.DataFrame(columns=['📆 Fecha', '📈 Predicción', '🚨 Anomalía', '⚠️ Variables Anómalas'])
 
-    columns = ['Fecha', 'Anomalía', 'Detalles']
+    columns = ['📆 Fecha Anomalía', '⚠️ Variables Anómalas', '📏 Umbral de Anomalía','❌ Error Detectado']
     anomaly_history_df = pd.DataFrame(columns=columns)
 
     # Crear un contenedor en Streamlit para la tabla
@@ -137,7 +137,6 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
     # Crear un contenedor en Streamlit para la tabla
     table_placeholder_anomaly = st.empty()
 
-
     #desactivamos el cálculo de gradientes
     with torch.no_grad():
         for X_batch, y_batch in test_loader:
@@ -149,7 +148,7 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
             test_errors.append(error)
             test_predictions.append(y_pred.cpu().numpy()) #guardo predicciones
             y_test_real.append(y_batch.cpu().numpy())
-            #time.sleep(0.8) #para la simulacion
+            time.sleep(1) #para la simulacion
 
             # Mostrar en Streamlit la predicción actualizada
             # Detectar anomalías
@@ -168,58 +167,17 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
             anomaly_flag = int(anomalies_per_feature.any())
             current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-
-            if anomaly_list:
-                # Comprobar si el sensor 'FIT101' está en la lista de anomalías
-                if 'FIT101' in anomaly_list[0]:  # Aquí, 'anomaly_list[0]' contiene los sensores anómalos de la primera fila
-                    state_image_path = "Imágenes/EstadoSistema/FIT101.png"  # Imagen cuando 'FIT101' tiene una anomalía
-                elif 'LIT101' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/lIT101.png"  # Imagen cuando 'LIT101' tiene una anomalía
-                elif 'DPIT301' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/DPIT301.png"  # Imagen cuando 'DPIT301' tiene una anomalía
-                elif 'FIT201' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/FIT201.png"  # Imagen cuando 'FIT201' tiene una anomalía
-                elif 'FIT601' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/FIT601.png"  # Imagen cuando 'FIT601' tiene una anomalía
-                elif 'LIT301' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/LIT301.png"  # Imagen cuando 'LIT301' tiene una anomalía
-                elif 'LIT401' in anomaly_list[0]:
-                    state_image_path = "Imágenes/EstadoSistema/LIT401.png"  # Imagen cuando 'LIT401' tiene una anomalía
-                elif any(sensor.startswith("MV101") for sensor in anomaly_list[0]):  # Detecta cualquier "MV101..."
-                    state_image_path = "Imágenes/EstadoSistema/MV101.png"
-                elif any(sensor.startswith("MV201") for sensor in anomaly_list[0]):  # Detecta cualquier "MV201..."
-                    state_image_path = "Imágenes/EstadoSistema/MV201.png"
-                elif any(sensor.startswith("MV301") for sensor in anomaly_list[0]):  # Detecta cualquier "MV301..."
-                    state_image_path = "Imágenes/EstadoSistema/MV301.png"
-                elif any(sensor.startswith("MV302") for sensor in anomaly_list[0]):  # Detecta cualquier "MV302..."
-                    state_image_path = "Imágenes/EstadoSistema/MV302.png"
-                elif any(sensor.startswith("MV303") for sensor in anomaly_list[0]):  # Detecta cualquier "MV303..."
-                    state_image_path = "Imágenes/EstadoSistema/MV303.png"
-                elif any(sensor.startswith("MV304") for sensor in anomaly_list[0]):  # Detecta cualquier "MV304..."
-                    state_image_path = "Imágenes/EstadoSistema/MV304.png"
-                elif any(sensor.startswith("P101") for sensor in anomaly_list[0]):  # Detecta cualquier "P101..."
-                    state_image_path = "Imágenes/EstadoSistema/P101.png"
-                elif any(sensor.startswith("P203") for sensor in anomaly_list[0]):  # Detecta cualquier "P203..."
-                    state_image_path = "Imágenes/EstadoSistema/P203.png"
-                elif any(sensor.startswith("P205") for sensor in anomaly_list[0]):  # Detecta cualquier "P205..."
-                    state_image_path = "Imágenes/EstadoSistema/P205.png"
-                elif any(sensor.startswith("P302") for sensor in anomaly_list[0]):  # Detecta cualquier "P302..."
-                    state_image_path = "Imágenes/EstadoSistema/P302.png"
-                elif any(sensor.startswith("P602") for sensor in anomaly_list[0]):  # Detecta cualquier "P602..."
-                    state_image_path = "Imágenes/EstadoSistema/P602.png"
-                else:
-                    state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando otro sensor tiene la anomalía
-            else:
-                state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
+            #elegir imagen a mostrar en tiempo real
+            state_image_path = elige_imagen(anomaly_list)
             # Mostrar imagen del estado del sistema
             estado_sistema(state_image_path, image_placeholder) 
 
             # Agregar nueva predicción a la tabla con nombres de sensores
             new_row = pd.DataFrame({
-                'Fecha': [current_time],
-                'Predicción': [y_pred.cpu().numpy().tolist()],  # Convertir a lista para evitar errores de formato
-                'Anomalía': ["Sí" if anomaly_flag == 1 else "No"],  # Convertir 1 -> "Sí" y 0 -> "No"
-                'Variables Anómalas': anomaly_list  # Convertir índices a nombres de sensores
+                '📆 Fecha': [current_time],
+                '📈 Predicción': [y_pred.cpu().numpy().tolist()],  # Convertir a lista para evitar errores de formato
+                '🚨 Anomalía': ["Sí" if anomaly_flag == 1 else "No"],  # Convertir 1 -> "Sí" y 0 -> "No"
+                '⚠️ Variables Anómalas': anomaly_list  # Convertir índices a nombres de sensores
             })
 
             df_results = pd.concat([df_results, new_row], ignore_index=True)
@@ -229,13 +187,17 @@ def evaluate_model(model_path, test_loader, y_test_true, X_test, device='cpu'):
                 # Mostrar el mensaje solo cuando hay una anomalía
                 anomaly_message_placeholder.error("¡Anomalía detectada! Revisa los sensores y el estado del sistema.")
                 
-                alert_message = f"🚨🚨🚨 REVISA LOS SENSORES: {', '.join(anomaly_list[0])}"
 
-                # Crear una nueva fila con la información de la predicción y la anomalía detectada
+                errors_for_anomalies = error[0][anomaly_indices]
+
+                thresholds_for_anomalies = feature_thresholds[anomaly_indices]  # Usamos el umbral más alto de los sensores
+
+                # Agregar información a la tabla de anomalías
                 new_row = {
-                    'Fecha': current_time,
-                    'Anomalía': "Sí" if anomaly_flag == 1 else "No",  # Indicar si hay anomalía
-                    'Detalles': alert_message  # Convertir las predicciones a lista
+                    '📆 Fecha Anomalía': current_time,
+                    '⚠️ Variables Anómalas': anomaly_list,
+                    '📏 Umbral de Anomalía': thresholds_for_anomalies,
+                    '❌ Error Detectado': errors_for_anomalies
                 }
 
                 # Convertir el diccionario a un DataFrame de pandas
@@ -266,6 +228,49 @@ def estado_sistema(path_imagen, image_placeholder):
     """
     image = Image.open(path_imagen)  # Abre la imagen desde la ruta
     image_placeholder.image(image, caption="Estado del Sistema", use_container_width=True)
+
+def elige_imagen(anomaly_list):
+    #si hay anomalía
+    if anomaly_list:
+        if 'FIT101' in anomaly_list[0]:  # Aquí, 'anomaly_list[0]' contiene los sensores anómalos de la primera fila
+            state_image_path = "Imágenes/EstadoSistema/FIT101.png"  # Imagen cuando 'FIT101' tiene una anomalía
+        elif 'LIT101' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/lIT101.png"  # Imagen cuando 'LIT101' tiene una anomalía
+        elif 'DPIT301' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/DPIT301.png"  # Imagen cuando 'DPIT301' tiene una anomalía
+        elif 'FIT201' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/FIT201.png"  # Imagen cuando 'FIT201' tiene una anomalía
+        elif 'FIT601' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/FIT601.png"  # Imagen cuando 'FIT601' tiene una anomalía
+        elif 'LIT301' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/LIT301.png"  # Imagen cuando 'LIT301' tiene una anomalía
+        elif 'LIT401' in anomaly_list[0]:
+            state_image_path = "Imágenes/EstadoSistema/LIT401.png"  # Imagen cuando 'LIT401' tiene una anomalía
+        elif any(sensor.startswith("MV101") for sensor in anomaly_list[0]):  # Detecta cualquier "MV101..."
+            state_image_path = "Imágenes/EstadoSistema/MV101.png"
+        elif any(sensor.startswith("MV201") for sensor in anomaly_list[0]):  # Detecta cualquier "MV201..."
+            state_image_path = "Imágenes/EstadoSistema/MV201.png"
+        elif any(sensor.startswith("MV301") for sensor in anomaly_list[0]):  # Detecta cualquier "MV301..."
+            state_image_path = "Imágenes/EstadoSistema/MV301.png"
+        elif any(sensor.startswith("MV302") for sensor in anomaly_list[0]):  # Detecta cualquier "MV302..."
+            state_image_path = "Imágenes/EstadoSistema/MV302.png"
+        elif any(sensor.startswith("MV303") for sensor in anomaly_list[0]):  # Detecta cualquier "MV303..."
+            state_image_path = "Imágenes/EstadoSistema/MV303.png"
+        elif any(sensor.startswith("MV304") for sensor in anomaly_list[0]):  # Detecta cualquier "MV304..."
+            state_image_path = "Imágenes/EstadoSistema/MV304.png"
+        elif any(sensor.startswith("P101") for sensor in anomaly_list[0]):  # Detecta cualquier "P101..."
+            state_image_path = "Imágenes/EstadoSistema/P101.png"
+        elif any(sensor.startswith("P203") for sensor in anomaly_list[0]):  # Detecta cualquier "P203..."
+            state_image_path = "Imágenes/EstadoSistema/P203.png"
+        elif any(sensor.startswith("P205") for sensor in anomaly_list[0]):  # Detecta cualquier "P205..."
+            state_image_path = "Imágenes/EstadoSistema/P205.png"
+        elif any(sensor.startswith("P302") for sensor in anomaly_list[0]):  # Detecta cualquier "P302..."
+            state_image_path = "Imágenes/EstadoSistema/P302.png"
+        elif any(sensor.startswith("P602") for sensor in anomaly_list[0]):  # Detecta cualquier "P602..."
+            state_image_path = "Imágenes/EstadoSistema/P602.png"
+        else:
+            state_image_path = "Imágenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
+    return state_image_path
 
 # Función para la página de detección de anomalías
 def mostrar_deteccion_anomalias():
