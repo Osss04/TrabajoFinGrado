@@ -14,17 +14,17 @@ Este repositorio contiene todo el trabajo correspondiente a mi **Trabajo de Fin 
   - **📂 Modelo**:
     Directorio que contiene el archivo `modelo_completo.pt`, que guarda toda la información del modelo entrenado.
   - **📂 Páginas**: Directorio que contiene todas las páginas que aparecen en la aplicación de `streamlit`. Se encuentran los archivos:
-    - **`1_inicio.py`**: Archivo de python con `streamlit` de la página de inicio de la aplicación.
-    - **`2_descripcion.py`**: Archivo de python con `streamlit` de la página de descripción del sistema.
-    - **`3_deteccion.py`**: Archivo de python con `streamlit` de la página de detección de anomalías en tiempo real.
-  - **`app.py`**: Archivo de python que contiene la clase en python del modelo y toda la navegación del `streamlit`, por lo que es la página principal.
+    - **`🗒️ 1_inicio.py`**: Archivo de python con `streamlit` de la página de inicio de la aplicación.
+    - **`🗒️ 2_descripcion.py`**: Archivo de python con `streamlit` de la página de descripción del sistema.
+    - **`🗒️ 3_deteccion.py`**: Archivo de python con `streamlit` de la página de detección de anomalías en tiempo real.
+  - **`🗒️ app.py`**: Archivo de python que contiene la clase en python del modelo y toda la navegación del `streamlit`, por lo que es la página principal.
 
 - **📂 Creación Modelo**: Contiene todos los archivos relacionados con el modelo creado, y a su vez, tiene las siguientes carpetas:
   - **📂 Resultados**: Contiene los resultados del **Grid Search**, del **Entrenamiento** y de la **Evaluación** del modelo en el archivo `README.md`.
   - **📂 Libretas**: Directorio que contiene todas las libretas `ipynb` que se han creado para realizar y analizar el modelo. Se encuentran las siguientes libretas:
-    - **`Análisis_y_Preprocesamiento_de_los_Datos.ipynb`**: Libreta que explica el **Estudio de los datos** y el **Preprocesamiento** que se ha realizado.
-    - **`Modelado_y_Evaluacion.ipynb`**: Libreta que explica cómo se ha realizado el **Grid Search**, el **Entrenamiento** y la **Evaluación** del modelo.
-    - **`Estudio_Salida_del_Modelo.ipynb`**: Libreta que estudia el **Tiempo de Detección del Modelo** y el **Funcionamiento del Regresor**.
+    - **`🗒️ Análisis_y_Preprocesamiento_de_los_Datos.ipynb`**: Libreta que explica el **Estudio de los datos** y el **Preprocesamiento** que se ha realizado.
+    - **`🗒️ Modelado_y_Evaluacion.ipynb`**: Libreta que explica cómo se ha realizado el **Grid Search**, el **Entrenamiento** y la **Evaluación** del modelo.
+    - **`🗒️ Estudio_Salida_del_Modelo.ipynb`**: Libreta que estudia el **Tiempo de Detección del Modelo** y el **Funcionamiento del Regresor**.
 ---
 
 ## Dependencias ⚙️
