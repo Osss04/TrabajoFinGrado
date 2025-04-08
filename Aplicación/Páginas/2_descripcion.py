@@ -1,7 +1,7 @@
 import streamlit as st
-# Función para la página de descripción del sistema
+
 def mostrar_descripcion_sistema():
-    # Configuración inicial de estilo
+    #configuración de estilos
     st.markdown("""
     <style>
         .title {
@@ -67,11 +67,11 @@ def mostrar_descripcion_sistema():
     </style>
     """, unsafe_allow_html=True)
 
-    # Título principal
+    #título
     st.markdown('<div class="title">Descripción del Sistema SWaT</div>', unsafe_allow_html=True)
     st.markdown('<div class="emoji-container">🗒️🚰</div>', unsafe_allow_html=True)
 
-    # Introducción
+    #introducción
     with st.container():
         st.markdown("""
         <div class="info-box">
@@ -80,13 +80,13 @@ def mostrar_descripcion_sistema():
         </div>
         """, unsafe_allow_html=True)
 
-    # Diagrama de procesos
+    #procesos
     st.markdown('<div class="header">Procesos de la Planta SWaT</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
         st.image("Imágenes/swat_Esquema.png", caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
 
-    # Esquema de sensores
+    #sensores
     st.markdown('<div class="header">Ubicación de Sensores</div>', unsafe_allow_html=True)
     with st.container():
         st.markdown("""
@@ -99,12 +99,12 @@ def mostrar_descripcion_sistema():
     with col2:
         st.image("Imágenes/esquema.png", caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores", use_container_width=True)
 
-    # Tabla de sensores
+    #tabla
     st.markdown('<div class="header">Listado Completo de Sensores y Actuadores</div>', unsafe_allow_html=True)
     with st.container():
         st.markdown("""
         <div class="info-box">
-            A continuación se muestran todos los sensores y actuadores del sistema con sus respectivas descripciones:
+            También se muestran todos los sensores y actuadores del sistema con sus respectivas descripciones:
         </div>
         """, unsafe_allow_html=True)
     
