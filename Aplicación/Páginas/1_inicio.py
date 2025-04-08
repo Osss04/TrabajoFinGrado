@@ -1,8 +1,7 @@
 import streamlit as st
 
-# Función de la página de bienvenida
 def mostrar_bienvenida():
-    # Configuración de estilos (puedes mover esto a un lugar común si lo usas en varias páginas)
+    #configuración de estilos
     st.markdown("""
     <style>
         .title {
@@ -42,6 +41,11 @@ def mostrar_bienvenida():
             margin-bottom: 10px;
             font-size: 16px;
         }
+        .feature-subitem {
+            margin-left: 30px;
+            font-size: 15px;
+            color: #555;
+        }
         .contact-box {
             background-color: #e8f4f8;
             border-radius: 10px;
@@ -53,43 +57,31 @@ def mostrar_bienvenida():
     </style>
     """, unsafe_allow_html=True)
 
-    # Título principal
+    #título
     st.markdown('<div class="title">Aplicación de Detección de Anomalías en Tiempo Real</div>', unsafe_allow_html=True)
     st.markdown('<div class="emoji-container">🚰🔍🔒</div>', unsafe_allow_html=True)
     
-    # Introducción
+    #introducción
     with st.container():
         st.markdown("""
         <div class="info-box">
-            <strong>Esta aplicación tiene como objetivo detectar posibles anomalías y ataques en una planta de tratamiento de agua (SWaT) en tiempo real.</strong> 🕛<br><br>
-            Utiliza modelos avanzados de aprendizaje automático para identificar comportamientos inusuales en los datos de sensores y actuadores.
+            <strong>Esta aplicación tiene como objetivo simular la tarea de detectar posibles anomalías y ataques en una planta de tratamiento de agua (SWaT) en tiempo real.</strong> 🕛<br><br>
+            Se utiliza una red neuronal compuesta por LSTM y capas densas que actúa como regresor. Este modelo es entrenado con el comportamiento normal de los sensores de la planta de agua,
+            por lo que para cada sensor predecirá dicho comportamiento. Cuando le llegue un registro que tenga mucha diferencia con el valor normal predicho, lo considerará anomalía.
         </div>
         """, unsafe_allow_html=True)
     
-    # Cómo funciona
-    st.markdown('<div class="header">¿Cómo funciona el sistema? 🛠️</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="header">¿Cómo funciona la detección de anomalías? 🛠️</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-list">
-        <div class="feature-item">📂 <strong>Sube un archivo CSV</strong> con los datos de los sensores de la planta</div>
-        <div class="feature-item">🤖 La aplicación <strong>procesará automáticamente</strong> tus datos utilizando modelos pre-entrenados</div>
-        <div class="feature-item">🔍 <strong>Detectará anomalías</strong> y posibles ataques en los datos</div>
-        <div class="feature-item">📊 Generará un <strong>informe detallado</strong> con visualizaciones interactivas</div>
-        <div class="feature-item">🚨 Proporcionará <strong>alertas tempranas</strong> para acciones preventivas</div>
+        <div class="feature-item">📖 Para ver cómo funciona la planta de tratamiento de agua y sus sensores, pulsa en la página <strong>Descripción del Sistema.</strong></div>
+        <div class="feature-item">🔍 Para comenzar la simulación de la detección de anomalías en tiempo real, pulsa en <strong>Detección de Anomalías</strong>.
+            <div class="feature-subitem">🚀 Una vez en la página, para iniciar el proceso, pulsa el botón <strong>Comenzar análisis</strong>.</div>
+            <div class="feature-subitem">🚨 Se realizará la detección en tiempo real mostrando en qué <strong>parte del sistema</strong> se dan las anomalías y se llevará a cabo un <strong>registro</strong> de ellas.</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
-    # Sección de contacto
-    st.markdown("""
-    <div class="contact-box">
-        <p style="font-size: 18px; margin-bottom: 10px;">¿Tienes alguna duda o necesitas asistencia?</p>
-        <p style="font-size: 16px;">✉️ Contacta conmigo en <strong>https://github.com/Osss04</strong></p>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-
-
-
-
 mostrar_bienvenida()
