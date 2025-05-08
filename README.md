@@ -41,16 +41,16 @@ Para las **Libretas**, se ha utilizado **`Python 3.10.16`** y las siguientes lib
 | torch (PyTorch)| 1.12.0    |
 | tqdm           | 4.64.1    |
 
-Para la **Aplicación**, se ha utilizado **`Python 3.10.16`** y las siguientes librerías:
+Para la **Aplicación**, se ha utilizado **`Python 3.12`** y las siguientes librerías:
 
 | Librería       | Versión   |
 |----------------|-----------|
-| torch (PyTorch)| 1.12.0    |
+| torch (PyTorch)| 2.2.0     |
 | streamlit      | 1.37.1    |
-| pandas         | 2.2.3     |
+| pandas         | 2.2.2     |
 | numpy          | 1.26.4    |
-| PIL            | 10.4.0    |
-| matplotlib     | 3.10.0    |
+| PIL            | 10.3.0    |
+| matplotlib     | 3.8.4     |
 
 
 ---
