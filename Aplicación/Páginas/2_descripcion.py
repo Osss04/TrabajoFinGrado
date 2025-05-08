@@ -89,7 +89,7 @@ def mostrar_descripcion_sistema():
     st.write("📁 Directorio actual:", os.getcwd())
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        st.image("Aplicación/Imagenes/swat_Esquema.png", caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
+        st.image("Aplicación/Imagenes/swat_Esquema.png", caption="Diagrama de los procesos principales de la planta SWaT")
 
     #sensores
     st.markdown('<div class="header">Ubicación de Sensores</div>', unsafe_allow_html=True)
@@ -102,8 +102,7 @@ def mostrar_descripcion_sistema():
     
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        img2 = Image.open("../Imagenes/Esquema.png")
-        st.image(img2, caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores", use_container_width=True)
+        st.image("Aplicación/Imagenes/Esquema.png", caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores")
 
     #tabla
     st.markdown('<div class="header">Listado Completo de Sensores y Actuadores</div>', unsafe_allow_html=True)
