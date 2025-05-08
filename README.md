@@ -49,7 +49,7 @@ Para la **Aplicación**, se ha utilizado **`Python 3.12`** y las siguientes libr
 | streamlit      | 1.37.1    |
 | pandas         | 2.2.2     |
 | numpy          | 1.26.4    |
-| PIL            | 10.3.0    |
+| Pillow         | 10.3.0    |
 | matplotlib     | 3.8.4     |
 
 
