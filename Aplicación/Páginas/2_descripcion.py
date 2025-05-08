@@ -1,6 +1,8 @@
 import streamlit as st
+from PIL import Image
+import os
 
-
+img_path = "imagenes/swat_Esquema.png"
 
 def mostrar_descripcion_sistema():
     #configuración de estilos
@@ -86,7 +88,8 @@ def mostrar_descripcion_sistema():
     st.markdown('<div class="header">Procesos de la Planta SWaT</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        st.image("imagenes/swat_Esquema.png", caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
+        img = Image.open("imagenes/swat_Esquema.png")
+        st.image(img, caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
 
     #sensores
     st.markdown('<div class="header">Ubicación de Sensores</div>', unsafe_allow_html=True)
@@ -99,7 +102,8 @@ def mostrar_descripcion_sistema():
     
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        st.image("imagenes/esquema.png", caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores", use_container_width=True)
+        img2 = Image.open("imagenes/esquema.png")
+        st.image(img2, caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores", use_container_width=True)
 
     #tabla
     st.markdown('<div class="header">Listado Completo de Sensores y Actuadores</div>', unsafe_allow_html=True)
