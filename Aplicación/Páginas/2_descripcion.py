@@ -86,6 +86,7 @@ def mostrar_descripcion_sistema():
 
     #procesos
     st.markdown('<div class="header">Procesos de la Planta SWaT</div>', unsafe_allow_html=True)
+    st.write("📁 Directorio actual:", os.getcwd())
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
         img = Image.open("../Imagenes/swat_Esquema.png")
