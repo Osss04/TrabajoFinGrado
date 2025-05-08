@@ -89,8 +89,7 @@ def mostrar_descripcion_sistema():
     st.write("📁 Directorio actual:", os.getcwd())
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        img = Image.open("Aplicación/Imagenes/swat_Esquema.png")
-        st.image(img, caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
+        st.image("Aplicación/Imagenes/swat_Esquema.png", caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
 
     #sensores
     st.markdown('<div class="header">Ubicación de Sensores</div>', unsafe_allow_html=True)
