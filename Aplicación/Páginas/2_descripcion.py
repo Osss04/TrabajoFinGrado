@@ -88,7 +88,7 @@ def mostrar_descripcion_sistema():
     st.markdown('<div class="header">Procesos de la Planta SWaT</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        img = Image.open("imagenes/swat_Esquema.png")
+        img = Image.open("../Imágenes/swat_Esquema.png")
         st.image(img, caption="Diagrama de los procesos principales de la planta SWaT", use_container_width=True)
 
     #sensores
@@ -102,7 +102,7 @@ def mostrar_descripcion_sistema():
     
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
-        img2 = Image.open("imagenes/esquema.png")
+        img2 = Image.open("../Imágenes/Esquema.png")
         st.image(img2, caption="Esquema detallado de la planta SWaT mostrando ubicación de sensores", use_container_width=True)
 
     #tabla
