@@ -242,43 +242,43 @@ def elige_imagen(anomaly_list):
     #si hay anomalía
     if anomaly_list:
         if 'FIT101' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/FIT101.png"  #imagen cuando 'FIT101' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/FIT101.png"  #imagen cuando 'FIT101' tiene una anomalía
         elif 'LIT101' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/lIT101.png"  #imagen cuando 'LIT101' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/lIT101.png"  #imagen cuando 'LIT101' tiene una anomalía
         elif 'DPIT301' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/DPIT301.png"  #imagen cuando 'DPIT301' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/DPIT301.png"  #imagen cuando 'DPIT301' tiene una anomalía
         elif 'FIT201' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/FIT201.png"  #imagen cuando 'FIT201' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/FIT201.png"  #imagen cuando 'FIT201' tiene una anomalía
         elif 'FIT601' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/FIT601.png"  #imagen cuando 'FIT601' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/FIT601.png"  #imagen cuando 'FIT601' tiene una anomalía
         elif 'LIT301' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/LIT301.png"  #imagen cuando 'LIT301' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/LIT301.png"  #imagen cuando 'LIT301' tiene una anomalía
         elif 'LIT401' in anomaly_list[0]:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/LIT401.png"  #imagen cuando 'LIT401' tiene una anomalía
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/LIT401.png"  #imagen cuando 'LIT401' tiene una anomalía
         elif any(sensor.startswith("MV101") for sensor in anomaly_list[0]):  #cualquier 'MV101'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV101.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV101.png"
         elif any(sensor.startswith("MV201") for sensor in anomaly_list[0]):  #cualquier 'MV201'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV201.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV201.png"
         elif any(sensor.startswith("MV301") for sensor in anomaly_list[0]):  #cualquier 'MV301'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV301.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV301.png"
         elif any(sensor.startswith("MV302") for sensor in anomaly_list[0]):  #cualquier 'MV302'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV302.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV302.png"
         elif any(sensor.startswith("MV303") for sensor in anomaly_list[0]):  #cualquier 'MV303'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV303.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV303.png"
         elif any(sensor.startswith("MV304") for sensor in anomaly_list[0]):  #cualquier 'MV304'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/MV304.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/MV304.png"
         elif any(sensor.startswith("P101") for sensor in anomaly_list[0]):  #cualquier 'P101'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/P101.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/P101.png"
         elif any(sensor.startswith("P203") for sensor in anomaly_list[0]):  #cualquier 'P203'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/P203.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/P203.png"
         elif any(sensor.startswith("P205") for sensor in anomaly_list[0]):  #cualquier 'P205'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/P205.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/P205.png"
         elif any(sensor.startswith("P302") for sensor in anomaly_list[0]):  #cualquier 'P302'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/P302.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/P302.png"
         elif any(sensor.startswith("P602") for sensor in anomaly_list[0]):  #cualquier 'P602'
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/P602.png"
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/P602.png"
         else:
-            state_image_path = "Aplicación/Imágenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
+            state_image_path = "Aplicación/Imagenes/EstadoSistema/Normal.png"  # Imagen cuando no hay anomalías
     return state_image_path
 
 def mostrar_deteccion_anomalias():
