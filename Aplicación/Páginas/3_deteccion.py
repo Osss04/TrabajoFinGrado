@@ -227,7 +227,7 @@ def estado_sistema(path_imagen, image_placeholder):
     image_placeholder: Placeholder del Streamlit dónde se actualiza la imagen.
     """
     image = Image.open(path_imagen)  #abre la imagen desde la ruta
-    image_placeholder.image(image, caption="Estado del Sistema", use_container_width=True)
+    image_placeholder.image(image, caption="Estado del Sistema")
 
 def elige_imagen(anomaly_list):
     """
