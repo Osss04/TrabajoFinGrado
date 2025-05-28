@@ -26,6 +26,7 @@ Este repositorio contiene todo el trabajo correspondiente a mi **Trabajo de Fin 
     - 🗒️ **`Modelado_y_Evaluacion.ipynb`**: Libreta que explica cómo se ha realizado el **Grid Search**, el **Entrenamiento** y la **Evaluación** del modelo.
     - 🗒️ **`Estudio_Salida_del_Modelo.ipynb`**: Libreta que estudia el **Tiempo de Detección del Modelo** y el **Funcionamiento del Regresor**.
     - 🗒️🐍 **`grid_search.py`**: Archivo de Python que explica el **grid_search** que se ha realizado.
+    - 🗒️🐍 **`train_model.py`**: Archivo de Python que explica cómo se ha **entrenando el modelo**.
 ---
 
 ## Dependencias ⚙️
