@@ -1,123 +1,80 @@
 # RESULTADOS GRID SEARCH 📊
 
-## param_grid1:
+## param_grid:
 
-### Probando configuración:  
-**`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
-**Entrenando con epochs = 3**  
 
-- **Epoch 1/3** - Loss: 0.0157  
-- **Epoch 2/3** - Loss: 0.0145  
-- **Epoch 3/3** - Loss: 0.0111  
+### Probando configuración:
+**`{'activation': 'relu', 'dense_neurons': [256], 'epochs': 5, 'lstm_neurons': [300, 200, 130]}`** 
+
+**Entrenando con epochs = 5** 
+                                                                    
+- **Epoch 1/5** - Loss: 0.0165                                                                   
+- **Epoch 2/5** - Loss: 0.0145                                                                   
+- **Epoch 3/5** - Loss: 0.0091                                                                   
+- **Epoch 4/5** - Loss: 0.0077                                                                   
+- **Epoch 5/5** - Loss: 0.0079
 
 **Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0920**  
+ 📉 **MAE en validación: 0.0397**
+
+---
+
+### Probando configuración:
+**`{'activation': 'relu', 'dense_neurons': [256], 'epochs': 5, 'lstm_neurons': [200, 130]}`** 
+
+**Entrenando con epochs = 5** 
+                                                                   
+- **Epoch 1/5** - Loss: 0.0121                                                                 
+- **Epoch 2/5** - Loss: 0.0106                                                                 
+- **Epoch 3/5** - Loss: 0.0086                                                                
+- **Epoch 4/5** - Loss: 0.0076                                                               
+- **Epoch 5/5** - Loss: 0.0068
+
+**Evaluando en conjunto de validación...**  
+ 📉 **MAE en validación: 0.0251**
 
 ---
 
 ### Probando configuración:  
-**`{'activation': 'relu', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
-**Entrenando con epochs = 3**  
+**`{'activation': 'relu', 'dense_neurons': [256, 128], 'epochs': 5, 'lstm_neurons': [300, 200, 130]}`**  
 
-- **Epoch 1/3** - Loss: 0.0103  
-- **Epoch 2/3** - Loss: 0.0087  
-- **Epoch 3/3** - Loss: 0.0072  
+**Entrenando con epochs = 5**  
+
+- **Epoch 1/5** - Loss: 0.0193  
+- **Epoch 2/5** - Loss: 0.0200  
+- **Epoch 3/5** - Loss: 0.0176  
+- **Epoch 4/5** - Loss: 0.0150  
+- **Epoch 5/5** - Loss: 0.0133  
 
 **Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0577**  
+📉 **MAE en validación: 0.0572**  
 
 ---
 
-### Probando configuración:  
-**`{'activation': 'relu', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
-**Entrenando con epochs = 3**  
+### Probando configuración:
+**`{'activation': 'relu', 'dense_neurons': [256, 128], 'epochs': 5, 'lstm_neurons': [200, 130]}`** 
 
-- **Epoch 1/3** - Loss: 0.0222  
-- **Epoch 2/3** - Loss: 0.0250  
-- **Epoch 3/3** - Loss: 0.0158  
+**Entrenando con epochs = 5** 
+                                                                   
+ - **Epoch 1/5** - Loss: 0.0181                                         
+ - **Epoch 2/5** - Loss: 0.0157                                         
+ - **Epoch 3/5** - Loss: 0.0113                                                      
+ - **Epoch 4/5** - Loss: 0.0092                                                                 
+ - **Epoch 5/5** - Loss: 0.0084
 
 **Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0648**  
+ 📉 **MAE en validación: 0.0521**
 
 ---
-
-### Probando configuración:  
-**`{'activation': 'relu', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
-**Entrenando con epochs = 3**  
-
-- **Epoch 1/3** - Loss: 0.0171  
-- **Epoch 2/3** - Loss: 0.0130  
-- **Epoch 3/3** - Loss: 0.0131  
-
-**Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0916**  
-
----
-
-## param_grid2:
-
-### Probando configuración:  
-**`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
-**Entrenando con epochs = 3**  
-
-- **Epoch 1/3** - Loss: 0.0199  
-- **Epoch 2/3** - Loss: 0.0165  
-- **Epoch 3/3** - Loss: 0.0120  
-
-**Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0914**  
-
----
-
-### Probando configuración:  
-**`{'activation': 'sigmoid', 'dense_neurons': [704], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
-**Entrenando con epochs = 3**  
-
-- **Epoch 1/3** - Loss: 0.0183
-- **Epoch 2/3** - Loss: 0.0136  
-- **Epoch 3/3** - Loss: 0.0094  
-
-**Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.0913**  
-
----
-
-### Probando configuración:  
-**`{'activation': 'sigmoid', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [512, 256, 130]}`**  
-**Entrenando con epochs = 3**  
-
-- **Epoch 1/3** - Loss: 0.0175  
-- **Epoch 2/3** - Loss: 0.0196  
-- **Epoch 3/3** - Loss: 0.0180  
-
-**Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.1953**  
-
----
-
-### Probando configuración:  
-**`{'activation': 'sigmoid', 'dense_neurons': [704, 200], 'epochs': 3, 'lstm_neurons': [256, 130]}`**  
-**Entrenando con epochs = 3**  
-
-- **Epoch 1/3** - Loss: 0.0182  
-- **Epoch 2/3** - Loss: 0.0172  
-- **Epoch 3/3** - Loss: 0.0183  
-
-**Evaluando en conjunto de validación...**  
-📉 **MAE en validación: 0.1691**  
-
-
-
 
 ### ✅ Mejor configuración general:
 
 | Parámetro        | Valor             |
 |-----------------|------------------|
 | **Activación**  | `relu`           |
-| **Neuronas densas** | `[704]`     |
-| **Neuronas LSTM** | `[256, 130]` |
-| **Mejor MAE**   | `0.0577`        |
-
+| **Neuronas densas** | `[256]`     |
+| **Neuronas LSTM** | `[200, 130]` |
+| **Mejor MAE**   | `0.0251`        |
 
 <hr style="height:4px;border-width:0;color:gray;background-color:gray">
 
@@ -126,21 +83,18 @@
 
 ## 📈 Progreso del Entrenamiento
 
-| Época   | Loss     | Checkpoint               |
-|---------|----------|--------------------------|
-| 1/9     | `0.0102` |                          |
-| 2/9     | `0.0083` | ✅ `checkpoint_2.pt`      |
-| 3/9     | `0.0068` |                          |
-| 4/9     | `0.0064` | ✅ `checkpoint_4.pt`      |
-| 5/9     | `0.0061` | ✅ `checkpoint_5.pt`      |
-| 6/9     | `0.0062` | ✅ `checkpoint_6.pt`      |
-| 7/9     | `0.0065` |                          |
-| 8/9     | `0.0058` |                          |
-| 9/9     | `0.0072` | 🏆 **`modelo_completo.pt`** |
+| Época | Loss     | Checkpoint             |
+|-------|----------|------------------------|
+| 1/6   | `0.0104` | ✅ `model_epoch_1.pt`   |
+| 2/6   | `0.0090` | ✅ `model_epoch_2.pt`   |
+| 3/6   | `0.0087` | ✅ `model_epoch_3.pt`   |
+| 4/6   | `0.0084` | ✅ `model_epoch_4.pt`   |
+| 5/6   | `0.0077` | ✅ `model_epoch_5.pt`   |
+| 6/6   | `0.0070` | 🏆 **`model_epoch_6.pt`** |
 
 ### 🔍 Análisis
-- **Mejor pérdida**: Época 8 (`0.0058`)
-- **Checkpoints guardados**: 4 (épocas 2, 4, 5, 6)
+- **Mejor pérdida**: Época 6 (`0.0070`)
+- **Checkpoints guardados**: 6 (épocas 1, 2, 3, 4, 5, 6)
 
 
 

@@ -407,7 +407,7 @@ def mostrar_deteccion_anomalias():
             )
 
             y_real =y_test.values[130:]
-            resultados_df = evaluate_model("Aplicación/Modelo/modelo_completo.pt",test_loader,y_real,X_test, device='cpu')
+            resultados_df = evaluate_model("Aplicación/Modelo/model_epoch_6.pt",test_loader,y_real,X_test, device='cpu')
             
             #botón para descargar resultados
             csv = resultados_df.to_csv(index=False).encode('utf-8')
