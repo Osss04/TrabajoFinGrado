@@ -59,16 +59,6 @@ Para la **Aplicación**, se ha utilizado **`Python 3.12`** y las siguientes libr
 
 ## Ejecución de la Aplicación 🚀  
 
-Para ejecutar la aplicación, sigue estos pasos:  
+Para ejecutar la aplicación, pulsar el siguiente enlace:
 
-### Paso 1: Abrir la terminal  
-Una vez descargados los archivos en local, abre la terminal en el directorio donde guardaste el archivo.  
-
-### Paso 2: Ejecutar la aplicación  
-Asegúrate de que todas las dependencias estén instaladas en tu ordenador. Luego, ejecuta el siguiente comando en la terminal:  
-
-```bash
-streamlit run app.py
-```
-
----
+👉 [Acceder a la aplicación](https://trabajofingrado-oscaralcarrialaserna.streamlit.app/)
